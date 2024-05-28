@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.2
+    environment:
+      ELASTICSEARCH_HOSTS: '["http://host.docker.internal:${ELASTICSEARCH_PORT}"]'
+      ELASTICSEARCH_USERNAME: ${ELASTICSEARCH_USERNAME}
+      ELASTICSEARCH_PASSWORD: ${ELASTICSEARCH_PASSWORD}    
+    ports:
+      - "${KIBANA_PORT}:${KIBANA_PORT}"
+    privileged: true

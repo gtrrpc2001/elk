@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.2
+    container_name: mysqlLogstash
+    volumes:
+      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash/config/mysql-connector-j-8.4.0.jar:/usr/share/logstash/config/mysql-connector-j-8.4.0.jar
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/logs:/usr/share/logstash/logs
+    environment:      
+      - "ELASTICSEARCH_HOST=host.docker.internal"
+      - "ELASTICSEARCH_PORT=${ELASTICSEARCH_PORT}"
+      - "JDBC_USER=${MSL_USERNAME}"
+      - "JDBC_PASSWORD=${MSL_PASSWORD}"
+      - "ELASTICSEARCH_USER=${ELASTICADMIN}"
+      - "ELASTICSEARCH_PASSWORD=${MSL_PASSWORD}"
+      - "MYSQL_HOST=${MYSQL_HOST}"
+      - "MYSQL_PORT=${MYSQL_PORT}"
+      - "MYSQL_DB=${MYSQL_DB}"
+    #   - LOGSTASH_JAVA_OPTS=-Xmx256m -Xms256m
+    ports:
+      - "9600:9600"
+    restart: always
