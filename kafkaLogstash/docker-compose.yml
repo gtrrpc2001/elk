@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.2
+    volumes:
+      - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/logs:/usr/share/logstash/logs
+    environment:
+      - "ELASTICSEARCH_HOST=${HOST}"
+      - "ELASTICSEARCH_PORT=${PORT}"
+      - "USER=${USER}"
+      - "PASSWORD=${PASSWORD}"
+    ports:
+      - "${EXPORT}:${EXPORT}"
+    restart: always
