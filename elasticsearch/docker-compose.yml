@@ -4,16 +4,7 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
     container_name: elasticsearch
     environment:
-      - node.name=es01
-      - cluster.name=es-docker-cluster
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - xpack.security.http.ssl.enabled=false
-      - xpack.security.enabled=true
-      - network.host=localhost    
-      - http.host=0.0.0.0
-      - ELASTIC_PASSWORD=${MSL_PASSWORD}      
-      # - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTIC_PASSWORD=${PASSWORD}
     ulimits:
       memlock:
         soft: -1
@@ -21,6 +12,7 @@ services:
     ports:
       - "${ELASTICSEARCH_PORT}:${ELASTICSEARCH_PORT}"
     volumes:      
+      - ./config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - esdata1:/usr/share/elasticsearch/data   
     
 volumes:
